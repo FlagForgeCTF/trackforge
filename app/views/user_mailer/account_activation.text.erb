@@ -1,0 +1,11 @@
+Hello <%= @user.fname %>!
+
+Thanks for your support, and welcome to <%= @competition_name %>! Please paste
+the following URL in your browser to activate your account:
+
+<%= edit_account_activation_url(@user.activation_token, email: @user.email) %>
+
+Best of luck!
+-The <%= @competition_name %> Team
+
+- Note: Please do not reply to this e-mail.  If you have questions, please e-mail: <%= @admin_email %>

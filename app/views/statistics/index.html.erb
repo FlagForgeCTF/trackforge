@@ -1,0 +1,111 @@
+<% provide(:title, 'Statistics') %>
+<div class="container statistics-page">
+  <h1 class="text-center mb-5">Competition Progress</h1>
+
+  <div class="row text-center mb-5">
+    <div class="col-md-3">
+      <div class="stat-card">
+        <h3><%= @total_problems %></h3>
+        <p>Total Challenges</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-card">
+        <h3><%= @solved_problems %></h3>
+        <p>Challenges Solved</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-card">
+        <h3><%= @total_submissions %></h3>
+        <p>Total Submissions</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-card">
+        <h3><%= number_to_percentage((@correct_submissions.to_f / @total_submissions * 100), precision: 1) if @total_submissions > 0 %></h3>
+        <p>Accuracy Rate</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Category Progress</h3>
+        </div>
+        <div class="panel-body">
+          <div id="category_chart"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Top 10 Most Solved Challenges</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Challenge</th>
+                <th>Solves</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @top_problems.each do |p| %>
+                <tr>
+                  <td><%= p[:name] %></td>
+                  <td><%= p[:solves] %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    var chart = c3.generate({
+      bindto: '#category_chart',
+      data: {
+        columns: [
+          ['Solved', <%= @category_stats.map { |s| s[:solved] }.to_json %>],
+          ['Total', <%= @category_stats.map { |s| s[:total] }.to_json %>]
+        ],
+        type: 'bar',
+        groups: [
+          ['Solved', 'Total']
+        ]
+      },
+      axis: {
+        x: {
+          type: 'category',
+          categories: <%= @category_stats.map { |s| s[:name] }.to_json %>
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+  .stat-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+  .stat-card h3 {
+    margin-top: 0;
+    color: #337ab7;
+    font-size: 2.5em;
+  }
+  .statistics-page h1 {
+    margin-bottom: 40px;
+  }
+</style>

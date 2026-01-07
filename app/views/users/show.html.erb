@@ -1,0 +1,83 @@
+<% provide(:title, @user.fname) %>
+<%= content_tag :div, class: 'row' do %>
+  <%= content_tag :aside, class: 'col-md-4' do %>
+    <%= content_tag :section, class: 'user_info' do %>
+      <%= content_tag :h1, class: 'text-right' do %>
+        <%= gravatar_for @user %>
+				<%= @user.username %>
+      <% end %>
+			<%= content_tag :h2, class: 'text-right' do %>
+        <%= "#{@user.fname} #{@user.lname}" %>
+			<% end %>
+			<%= content_tag :p,  class: 'text-right' do %>
+				<b>Hints:</b> <%= @number_of_hints %>, <b>Points:</b> <%= @score %>
+			<% end %>
+      <% unless @user.about.blank? %>
+        <%= content_tag :h4, 'About' %>
+        <%= content_tag :p do %>
+          <%= simple_format(@user.about) %>
+        <% end %>
+      <% end %>
+      <%= content_tag :h4, 'Completion', class: 'text-center' %>
+      <%= content_tag :ul, class: 'list-group' do %>
+        <% @performance.each do |cat| %>
+          <%= content_tag :a, href: "#{problems_path}##{cat[0]}", class: 'list-group-item' do %>
+            <span class='badge'>
+              <%= "#{cat[1][:correct]} / #{cat[1][:total]}" %>
+            </span>
+            <b><%= cat[0] %></b>: 
+          <% end %>
+        <% end %>
+      <% end %>
+			<% if @user.team %>
+
+				<% # Team Name and Score # %>
+				<%= content_tag :hr %>
+				<%= content_tag :h1, class: 'text-center' do %>
+					<%= link_to @user.team.name, @user.team %> (<%= @user.team.get_score %>)
+				<% end %>
+
+				<% # Other Members # %>
+				<%= content_tag :ul, class: 'users' do %>
+					<%= render @user.team.users.where.not(id: @user.id) %>
+				<% end %>
+
+				<% # Leave button # %>
+				<%= content_tag :p do %>
+					<% if current_user?(@user) && @user.is_member?(@user.team) %>
+						<%= link_to 'Leave', remove_member_path(user_id: @user.id, team_id: @user.team.id),  method: :post, class: 'btn btn-primary' %>
+					<% end %>
+				<% end %>
+
+			<% else %>
+				<% if current_user?(@user) %>
+					<%= content_tag :p, 'You are not a member of a team.' %>
+					<%= content_tag :p do %>
+						<%= link_to 'Create', new_team_path, class: 'btn btn-primary' %>
+						<%= link_to 'Join', teams_path, class: 'btn btn-primary' %>
+					<% end %>
+				<% else %>
+					<%= content_tag :p, "#{@user.fname} does not belong to any team right now." %>
+				<% end %>
+			<% end %>
+		<% end %>
+	<% end %>
+
+	<% # User Stats # %>
+	<%= content_tag :div, class: 'col-md-8 user_stats' do %>
+
+		<%= javascript_tag do %>
+			window.user_id = <%= @user.id %>;
+		<% end %>
+		
+		<%= content_tag :div, "", id: 'user_accuracy',  class: 'col-sm-6', style: 'height:200px' %>
+		<%= content_tag :div, "", id: 'user_categories',  class: 'col-sm-6', style: 'height:200px' %>
+
+		<%= content_tag :h3, 'Correct Submissions', class: 'col-md-12 text-center' %>
+		<%= content_tag :h5, "#{number_with_precision (@accuracy * 100), :precision => 2}% accuracy", class: 'text-center' %>
+		<%= content_tag :ul do %>
+			<%= render @user.submissions.where(correct: true) %>
+		<% end %>
+	<% end %>
+
+<% end %>

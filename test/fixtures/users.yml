@@ -1,0 +1,54 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+example_user:
+  id: 1
+  fname: Another
+  lname: Example User
+  username: admin
+  email: another_user@example.com
+  password_digest: <%= User.digest('password') %>
+  activated: true
+  paid: true
+  team_id: 1
+  admin: true
+  activated_at: <%= Time.zone.now %>
+  authorized: true
+
+archer:
+  id: 2
+  fname: Sterling
+  lname: Archer
+  username: archer
+  email: archer@isis.gov
+  password_digest: <%= User.digest('password') %>
+  activated: true
+  paid: true
+  team_id: 2
+  activated_at: <%= Time.zone.now %>
+  authorized: true
+
+malory:
+  id: 3
+  fname: Malory
+  lname: Archer
+  username: mother
+  email: malory@isis.gov
+  password_digest: <%= User.digest('password') %>
+  activated: true
+  paid: true
+  team_id: 3
+  activated_at: <%= Time.zone.now %>
+  authorized: true
+
+cyril:
+  id: 4
+  fname: Cyril
+  lname: Figgis
+  username: cyril
+  email: cyril@isis.gov
+  password_digest: <%= User.digest('password') %>
+  activated: true
+  paid: true
+  team_id: 3
+  activated_at: <%= Time.zone.now %>
+  authorized: true
