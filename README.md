@@ -46,7 +46,7 @@ TrackForge is more than just a scoreboard; it's a complete CTF orchestration pla
 
 1.  **Clone the repository**:
     ```bash
-    git clone https://github.com/mcpa-stlouis/hack-the-arch.git trackforge
+    git clone https://github.com/flagforgeCTF/trackforge.git trackforge
     cd trackforge
     ```
 
@@ -123,4 +123,4 @@ We welcome contributions! If you have a feature request or a bug fix:
 This project is licensed under the **MIT License**. See the `LICENSE` file for details.
 
 ---
-*Developed by the Military Cyber Professionals Association (MCPA) - St. Louis Chapter.*
+*Developed by Flagforge.*
