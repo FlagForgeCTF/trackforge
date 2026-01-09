@@ -1,6 +1,12 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
+# Skip if already seeded
+if Setting.exists?(name: "competition_name")
+  puts "Database already seeded, skipping..."
+  exit
+end
+
 # General Category
 Setting.create!(label: "Competition Name:", 
                 name: "competition_name", value: "TrackForge", setting_type: "text", category: "General")

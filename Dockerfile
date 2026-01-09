@@ -25,13 +25,14 @@ RUN bundle install --with production -j4 --retry 3 \
   && find /usr/local/bundle/gems/ -name "*.o" -delete
 
 ADD . ./
-RUN mkdir -p ./tmp/cache ./log
+RUN mkdir -p ./tmp/cache ./log ./tmp/pids
+RUN SECRET_KEY_BASE=dummy RAILS_ENV=production bundle exec rails assets:precompile
 
 ################################################################################
 # Production
 ################################################################################
 FROM ruby:3.3-alpine as prod
-LABEL maintainer="Paul Jordan <paullj1@gmail.com>"
+LABEL maintainer="Paul Jordan <flagforge@gmail.com>"
 
 RUN apk add --no-cache --update \
   imagemagick \

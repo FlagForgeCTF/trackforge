@@ -1,0 +1,40 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  rd:
+    image: redis:3.2
+    ports:
+      - "6379:6379"
+
+  web:
+    image: flagforge/trackforge:latest
+    build: .
+    environment:
+      - RAILS_ENV=production
+      - RACK_ENV=production
+      - RAILS_SERVE_STATIC_FILES=enabled
+      - LANG=en_US.UTF-8
+      - PORT=3000
+      - DATABASE_URL=postgresql://postgres@db/postgres
+      - REDIS_URL=redis://rd:6379/
+      - HOST=localhost
+      - SECRET_KEY_BASE=development_secret_key_base_change_in_production
+      - PIDFILE=/dev/null
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - rd
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  postgres_data:

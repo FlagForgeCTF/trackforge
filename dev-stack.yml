@@ -11,13 +11,15 @@ services:
       replicas: 1
   db:
     image: postgres:9.6
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
     networks: 
       - tf_network
     deploy:
       mode: replicated
       replicas: 1
   webconsole:
-    image: paullj1/webconsole:latest
+    image: flagforge/webconsole:latest
     networks: 
       - webconsole
     deploy:
@@ -37,7 +39,7 @@ services:
         source: /var/run/docker.sock
         target: /docker.sock
   webconsole_proxy:
-    image: paullj1/socat_static:latest
+    image: flagforge/socat_static:latest
     networks: 
       - webconsole
     ports:
@@ -57,7 +59,7 @@ services:
       "openssl-listen:2376,fork,reuseaddr,cert=/run/secrets/SERVER_PEM,cafile=/run/secrets/CLIENT_CRT",
       "unix-connect:/docker.sock"]
   web:
-    image: paullj1/trackforge:latest
+    image: flagforge/trackforge:latest
     environment:
       - RAILS_ENV=production
       - RACK_ENV=production
@@ -65,10 +67,11 @@ services:
       - RAILS_SERVE_STATIC_FILES=enabled
       - LANG=en_US.UTF-8
       - PORT=3000
-      - DATABASE_URL=postgresql://postgres@db/postgres
+      - DATABASE_URL=${DATABASE_URL:-postgresql://postgres@db/postgres}
       - REDIS_URL=redis://rd:6379/
       - HOST=localhost
       - SECRET_KEY_BASE=NOTASECRET
+      - PIDFILE=/dev/null
     volumes:
       - type: bind
         source: /var/run/docker.sock

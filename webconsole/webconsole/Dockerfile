@@ -1,7 +1,7 @@
 # Webconsole Dockerfile v1.0
 # Build stage
 FROM golang:1.12-alpine as builder
-MAINTAINER Paul Jordan <paullj1@gmail.com>
+MAINTAINER Lagzen Thakuri <lagzen.thakuri@flagforge.cxyzom>
 
 RUN apk update && apk add --no-cache upx git
 

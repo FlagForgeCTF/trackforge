@@ -37,12 +37,10 @@ TrackForge is more than just a scoreboard; it's a complete CTF orchestration pla
 ## ⚙️ Getting Started
 
 ### Prerequisites
-*   **Ruby**: 3.3.0 or higher
-*   **Rails**: 7.0.x
-*   **Database**: SQLite (Development) / PostgreSQL (Production)
-*   **Image Storage**: Cloudinary account (for challenge images)
+*   **Docker** and **Docker Compose**
+*   **Make** (optional, but recommended)
 
-### Installation
+### Quick Start with Docker
 
 1.  **Clone the repository**:
     ```bash
@@ -50,28 +48,56 @@ TrackForge is more than just a scoreboard; it's a complete CTF orchestration pla
     cd trackforge
     ```
 
-2.  **Install dependencies**:
+2.  **Configure Environment**:
+    ```bash
+    cp .env_sample .env
+    # Edit .env with your settings
+    ```
+
+3.  **Start everything**:
+    ```bash
+    make up          # Start containers
+    make db-reset    # Initialize database
+    ```
+
+4.  Visit `http://localhost:3000`
+
+### Available Make Commands
+
+```bash
+make help        # Show all available commands
+make build       # Build the Docker image
+make up          # Start containers
+make down        # Stop containers
+make restart     # Restart containers
+make logs        # View web logs
+make db-migrate  # Run database migrations
+make db-seed     # Seed the database
+make db-reset    # Migrate + seed database
+make shell       # Open shell in web container
+make console     # Open Rails console
+make assets      # Precompile assets
+make status      # Show container status
+make clean       # Remove containers and volumes
+```
+
+### Local Development (without Docker)
+
+1.  **Install dependencies**:
     ```bash
     bundle install
     ```
 
-3.  **Configure Environment**:
-    Copy the sample environment file and add your credentials (Cloudinary, etc.):
-    ```bash
-    cp .env_sample .env
-    ```
-
-4.  **Setup the Database**:
+2.  **Setup the Database**:
     ```bash
     bundle exec rails db:setup
     bundle exec rails db:seed
     ```
 
-5.  **Start the Server**:
+3.  **Start the Server**:
     ```bash
     bundle exec rails s
     ```
-    Visit `http://localhost:3000` to see your platform in action!
 
 ---
 
@@ -96,10 +122,15 @@ Use the **Statistics** tab to monitor the health of your event. You can see whic
 
 ## 🐳 Deployment Options
 
-### Docker (Recommended)
-TrackForge is fully containerized. To deploy using Docker Compose:
+### Docker Compose (Recommended for Local/Dev)
 ```bash
-docker stack deploy -c prod-stack.yml trackforge
+make up
+make db-reset
+```
+
+### Docker Swarm (Production)
+```bash
+make up-swarm
 ```
 Refer to the [Docker README](DOCKER_README.md) for detailed swarm configuration.
 
