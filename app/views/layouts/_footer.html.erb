@@ -1,13 +1,21 @@
 <footer class="footer">
-  <small>
-    <a href="https://github.com/flagforgeCTF/trackforge">TrackForge</a>
-    by <a href="http://flagforge.xyz/">Flagforge</a>
-  </small>
-  <nav>
-    <ul>
-      <li><%= link_to "About",   about_path %></li>
-      <li><%= link_to "Contact", contact_path %></li>
-      <li><a href="https://blog.flagforge.xyz">Blogs</a></li>
-    </ul>
-  </nav>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <p style="margin-top: 10px;">
+          &copy; <%= Time.now.year %> <strong>FlagForge</strong>. All rights reserved.
+        </p>
+      </div>
+      <div class="col-sm-6 text-right">
+        <nav>
+          <ul class="list-inline" style="margin-top: 10px;">
+            <li><%= link_to "About",   about_path %></li>
+            <li><%= link_to "Contact", contact_path %></li>
+            <li><a href="https://blog.flagforge.xyz">Blogs</a></li>
+            <li><a href="https://github.com/flagforgeCTF/trackforge">GitHub</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
 </footer>

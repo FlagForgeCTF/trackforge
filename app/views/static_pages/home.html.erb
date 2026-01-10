@@ -1,26 +1,58 @@
-<div class="center jumbotron">
-  <h1>Welcome to <%= competition_name %></h1>
+<div class="jumbotron">
+  <div class="badge-platform">Platform Online</div>
+  
+  <h1>
+    Welcome to <br>
+    <span class="highlight"><%= competition_name %></span>
+  </h1>
 
-	<div class="row">
-	<%= link_to image_tag("trackforge.png", width: '80%', alt: "trackforge logo", 
-												class: "center col-sm-12 col-md-6 col-md-offset-3"), 'http://trackforge-stl.org' %>
-	</div>
   <h2>
-    This is the home page for the 
-    <a href="https://github.com/flagforgeCTF/trackforge">TrackForge</a>
-    scoring server application developed by Flagforge.
+    A dynamic platform for <strong>Cybersecurity</strong> excellence. 
+    Sharpen your skills in cryptography, web exploitation, reverse engineering, and more.
   </h2>
 
-	<% if registration_active? %>
-		<% if !logged_in? %>
-  			<%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
-  		<% end %>
-	<% else %>
-		<% if competition_started? %>
-			<h3>Registration closed!</h3>
-		<% else %>
-			<h3>Registration hasn't opened yet, check back soon!</h3>
-		<% end %>
-	<% end %>
+  <div class="cta-group">
+    <% if registration_active? %>
+      <% if !logged_in? %>
+        <%= link_to "Get Started", signup_path, class: "btn btn-lg btn-primary" %>
+        <%= link_to "Learn More", help_path, class: "btn btn-lg btn-default", style: "margin-left: 10px; border-radius: 12px; padding: 12px 24px; font-weight: 700;" %>
+      <% else %>
+        <%= link_to "Go to Problems", problems_path, class: "btn btn-lg btn-primary" %>
+      <% end %>
+    <% else %>
+      <% if competition_started? %>
+        <div class="alert alert-info" style="position: static; width: auto; display: inline-block;">
+          Registration is currently closed.
+        </div>
+      <% else %>
+        <div class="alert alert-warning" style="position: static; width: auto; display: inline-block;">
+          Registration hasn't opened yet, check back soon!
+        </div>
+      <% end %>
+    <% end %>
+  </div>
 </div>
 
+<div class="row" style="margin-top: 60px;">
+  <div class="col-md-4">
+    <div class="card center">
+      <div style="font-size: 3rem; color: var(--primary); margin-bottom: 1.5rem;">🎯</div>
+      <h3 style="font-size: 2.5rem; margin-bottom: 0.5rem;">100+</h3>
+      <p class="text-muted" style="font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Challenges</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card center">
+      <div style="font-size: 3rem; color: var(--primary); margin-bottom: 1.5rem;">👥</div>
+      <h3 style="font-size: 2.5rem; margin-bottom: 0.5rem;">1000+</h3>
+      <p class="text-muted" style="font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Active Users</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card center">
+      <div style="font-size: 3rem; color: var(--primary); margin-bottom: 1.5rem;">🕒</div>
+      <h3 style="font-size: 2.5rem; margin-bottom: 0.5rem;">24/7</h3>
+      <p class="text-muted" style="font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Availability</p>
+    </div>
+  </div>
+</div>
